@@ -25,7 +25,7 @@
 \markboth{J. D. Rosenblatt \and J.J. Goeman}{Biometrika style}
 
 %% Here are the title, author names and addresses
-\title{Discussion of Sesia et al. 2018 and the Knockoff Framework}
+\title{Discussion of Sesia et al. and the Knockoff Framework}
 
 \author{Jonathan D. Rosenblatt}
 \affil{Dept. of Industrial Engineering and Management, \\
@@ -50,6 +50,11 @@ Denoting with $x$ and $y$ the predictor and outcome variables, respectively.
 The \emph{false detection proportion}, a.k.a.\ the \emph{false selection proportion}, is defined as $V/R$ where $R$ is the number of variables selected, and $V$ is the number of such variables where $y|x_{-j}$ is independent of $x_j$. 
 The knockoff algorithm of \cite{SesiaGenehuntinghidden} provably control the $FDR:=\mathbb{E}[FDP]$, at some user selected magnitude. 
 
+The fundamental idea of the method is to generate variables that have all the properties of the original $x_j$, only that they are conditionally uncorrelated to $y$. 
+These are termed \emph{knockoff} variables. 
+The method then proceeds to compute a test statistic that captures the difference in the strength of the dependence of the knockoff, and the original variable. 
+This statistic is then compared to it resampling distribution: the distribution over resampled knockoffs. 
+
 Crucially for our comments:
 (1) The $FDR$ is an expectation with respect to variability in $x$ and $y$, i.e., a \emph{random design} guarantee. 
 (2) The procedure is \emph{model free}, or \emph{non-parametric} in that nothing is assumed on the parametric form of $y|x$. 
@@ -69,24 +74,39 @@ The method of \cite{SesiaGenehuntinghidden} is similar in flavor to \cite{Barber
 
 
 
-\section{On the method}
-The fundamental idea of the method is to generate variables that have all the properties of the original $x_j$, only that they are conditionally uncorrelated to $y$. 
-These are termed \emph{knockoff} variables. 
-The method then proceeds to compute a test statistic that captures the difference in the strength of the dependence of the knockoff, and the original variable. 
-This statistic is then compared to it resampling distribution: the distribution over resampled knockoffs. 
+\section{Other Knockoffs}
+The idea of augmenting design matrices with random variables is not new. 
+It has been suggested many times, for the purposes of prediction, variable ranking, consistent support recovery, etc. 
+Some notable examples include the authors' own \cite{candes2006robust}.
+\cite{TusherSignificanceanalysismicroarrays2001} have already proposed the idea of permuting the original variables for FDR control on selected variables.
+While intuitive and elegant, their algorithm did not have any provable guarantees. 
+Some more algorithms adding ``fake'', ``phony'', ``probes'' or ``pseudo variables'', are reviewed in \cite{GuyonIntroductionVariableFeature2003}.
+
+Perhaps the most similar work is that of \cite{WuControllingVariableSelection2007}, which not only propose adding `pseudo-variables'' for the purpose of estimating the variable selection FDR, but also require two conditions very similar to the knockoff conditions. 
+\cite{WuControllingVariableSelection2007} require that:
+(A1) ``real unimportant variables and phony unimportant variables have the same probability of being selected on average'', and (A2)``real important variables have the same probability of being selected whether or not phony variables are present''.
+These two conditions cannot be satisfied, but they are clearly related to the \emph{pairwise exchangeability} and \emph{nullity condition} in \cite{SesiaGenehuntinghidden} and \cite{CandesPanninggoldmodelX2018}.
+
+The impossibility to satisfy A1 and A2 was already observed by \cite{WuControllingVariableSelection2007}. 
+One may thus view the two knockoff conditions as a satisfiable version of A1 and A2.
+To the credit of \cite{WuControllingVariableSelection2007} we quote their insights, which already hint at what will be later formalized in the knockoff conditions:
+``Permutation produces pseudovariables that when appended to the real data create what
+are essentially matched pairs. To each real variable there corresponds a pseudo variable with identical sample moments and also with preservation of correlations''.
 
 
 
 
 
-\subsection{Other Variable Selection Methods}
+
+
+
+\section{Other Variable Selection Methods}
 % stability selection, SURE screening, Banjamini-Gavrilov, BOLASO, hard thresholding, adaptive lasso, …
 
-\subsection{Other Knockoffs}
 
 
 
-\subsection{Permutation Testing and Symmetries}
+\section{Permutation Testing and Symmetries}
 
 
 
