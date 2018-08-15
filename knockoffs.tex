@@ -36,21 +36,43 @@
 
 \maketitle
 
-\begin{abstract}
-TODO
-\end{abstract}
+%\begin{abstract}
+%TODO
+%\end{abstract}
 
 
 \section{On the problem}
 % Variable selection with provable error guarantees. Namely, FDR control.
 
-\subsection{Link to other methods}
-% stability selection, SURE screening, Banjamini-Gavrilov, BOLASO, hard thresholding, adaptive lasso, …
+The authors of \cite{SesiaGenehuntinghidden} set out to design a procedure for variable selection with provable statistical guarantees. 
+The \emph{knockoff} algorithm proposed by \cite{SesiaGenehuntinghidden}, provably controls the $FDR$ of conditionally independent variables. 
+Denoting with $x$ and $y$ the predictor and outcome variables, respectively.
+The \emph{false detection proportion}, a.k.a.\ the \emph{false selection proportion}, is defined as $V/R$ where $R$ is the number of variables selected, and $V$ is the number of such variables where $y|x_{-j}$ is independent of $x_j$. 
+The knockoff algorithm of \cite{SesiaGenehuntinghidden} provably control the $FDR:=\mathbb{E}[FDP]$, at some user selected magnitude. 
+
+Crucially for our comments:
+(1) The $FDR$ is an expectation with respect to variability in $x$ and $y$, i.e., a \emph{random design} guarantee. 
+(2) The procedure is \emph{model free}, or \emph{non-parametric} in that nothing is assumed on the parametric form of $y|x$. 
+(3) The proofs assume full knowledge of $F_x$, i.e., the joint distribution of predictors, marginalized over $y$.
+(4) The method aims at good variable selection, not prediction. 
+
 
 
 \section{On the method}
+The fundamental idea of the method is to generate variables that have all the properties of the original $x_j$, only that they are conditionally uncorrelated to $y$. 
+These are termed \emph{knockoff} variables. 
+The method then proceeds to compute a test statistic that captures the difference in the strength of the dependence of the knockoff, and the original variable. 
+This statistic is then compared to it resampling distribution: the distribution over resampled knockoffs. 
+
+
+
+
+\subsection{Other Variable Selection Methods}
+% stability selection, SURE screening, Banjamini-Gavrilov, BOLASO, hard thresholding, adaptive lasso, …
 
 \subsection{Other Knockoffs}
+
+
 
 \subsection{Permutation Testing and Symmetries}
 
