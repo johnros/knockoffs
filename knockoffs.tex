@@ -56,9 +56,16 @@ Crucially for our comments:
 (3) The proofs assume full knowledge of $F_x$, i.e., the joint distribution of predictors, marginalized over $y$.
 (4) The method aims at good variable selection, not prediction. 
 
+We think of the method in \cite{SesiaGenehuntinghidden} as an adaptation of \cite{CandesPanninggoldmodelX2018} to genome-wide association studies (GWAS).
+The differences between the two:
+(1) The non-null variables in \cite{CandesPanninggoldmodelX2018} are those that belong to the minimal set that renders all others independent. The non-null variables in \cite{SesiaGenehuntinghidden} are those with non-null partial correlation. 
+(2) \cite{CandesPanninggoldmodelX2018} discusses a multivariate Gaussian model, while \cite{SesiaGenehuntinghidden} a hidden Markov model. 
+Each paper offers an sampling algorithm for sampling knockoffs from the assumed model. 
+
 The method of \cite{SesiaGenehuntinghidden} is similar in flavor to \cite{BarberControllingfalsediscovery2015}, but \cite{SesiaGenehuntinghidden} is quite more general:
 (1) \cite{BarberControllingfalsediscovery2015} assume a linear generative model, so that the null is simply $H_j:\beta_j=0$. 
 (2) \cite{BarberControllingfalsediscovery2015} crucially assume $n>p$, and Gaussian distributed errors. 
+
 
 
 
