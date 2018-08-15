@@ -56,6 +56,10 @@ Crucially for our comments:
 (3) The proofs assume full knowledge of $F_x$, i.e., the joint distribution of predictors, marginalized over $y$.
 (4) The method aims at good variable selection, not prediction. 
 
+The method of \cite{SesiaGenehuntinghidden} is similar in flavor to \cite{BarberControllingfalsediscovery2015}, but \cite{SesiaGenehuntinghidden} is quite more general:
+(1) \cite{BarberControllingfalsediscovery2015} assume a linear generative model, so that the null is simply $H_j:\beta_j=0$. 
+(2) \cite{BarberControllingfalsediscovery2015} crucially assume $n>p$, and Gaussian distributed errors. 
+
 
 
 \section{On the method}
@@ -63,6 +67,7 @@ The fundamental idea of the method is to generate variables that have all the pr
 These are termed \emph{knockoff} variables. 
 The method then proceeds to compute a test statistic that captures the difference in the strength of the dependence of the knockoff, and the original variable. 
 This statistic is then compared to it resampling distribution: the distribution over resampled knockoffs. 
+
 
 
 
