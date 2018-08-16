@@ -105,7 +105,14 @@ are essentially matched pairs. To each real variable there corresponds a pseudo 
 
 The problem setup in \cite{CandesPanninggoldmodelX2018} and \cite{SesiaGenehuntinghidden} deals with random design inference, in a non-parametric generative model.
 We find this to be a very useful setup for screening problems:
-It is consistent with the random designs typically found in observational studies, and it avoids the very-useful-yet-endlessly-debated linearity assumption. 
+It is consistent with the random designs typically found in observational studies, and it avoids the very-useful-yet-controversial linearity assumption. 
+
+A more surprising component of the problem setup is the knowledge of $F_x$, i.e., the joint distribution of predictors, marginalized over $y$. 
+Many authors would consider this an Oracle assumption, and given the difficulty of estimating joint distributions, an unrealistic one. 
+We, on the other hand, do not find this such a troubling assumption for the following reasons:
+(1) In many applications the dimensionality of $F_x$ can be reduced to a tractable one. The HMM assumption of \cite{SesiaGenehuntinghidden} is an example. 
+(2) The preliminary results of \cite{CandesPanninggoldmodelX2018} show that FDR-control is quite robust to errors in $F_x$. We expect this matter to be further investigated in the future. 
+
 
 
 
