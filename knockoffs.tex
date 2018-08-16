@@ -97,11 +97,6 @@ are essentially matched pairs. To each real variable there corresponds a pseudo 
 
 
 \section{On the Problem Setup}
-% Random versus fixed design.
-% Adequancy for GWAS?
-% Knowing F_x!!
-
-
 
 The problem setup in \cite{CandesPanninggoldmodelX2018} and \cite{SesiaGenehuntinghidden} deals with random design inference, in a non-parametric generative model.
 We find this to be a very useful setup for screening problems:
@@ -112,10 +107,6 @@ Many authors would consider this an Oracle assumption, and given the difficulty 
 We, on the other hand, do not find this such a troubling assumption for the following reasons:
 (1) In many applications the dimensionality of $F_x$ can be reduced to a tractable one. The HMM assumption of \cite{SesiaGenehuntinghidden} is an example. 
 (2) The preliminary results of \cite{CandesPanninggoldmodelX2018} show that FDR-control is quite robust to errors in $F_x$. We expect this matter to be further investigated in the future. 
-
-
-
-
 
 
 
@@ -161,18 +152,24 @@ If the purpose were not screening for associations, but rather, causal inference
 
 
 
-
-
-
-
-
 \section{Permutation Testing and Symmetries}
+@Jelle: do we want to write this? 
+Link to subset pivotality? 
+To your own work?
 
 
 
 \section{Future Research}
 % robustness to $$F_x$$, robustness to true correlations, best statistic for power, algorithms to generate knockoffs, statistics for more than one knockoff,…
 
+We find the knockoff framework to be quite exciting. 
+Not because it offers solutions to all possible difficulties, but on the contrary: because it sets the stage for many important research questions:
+Are error guarantees robust to misspecification of $F_x$?
+What test statistics to use?
+Knockoffs are not uniquely defined-- how to best generate them?
+
+\cite{DaiknockofffilterFDR2016}, \cite{JansonFamilywiseerrorrate2016}, \cite{ChenAnalysisKnockoffFilter2017}, \cite{ChenPseudoKnockoffFilter2017}, and certainly others, have already started to explore and extend the knockoff framework of \cite{BarberControllingfalsediscovery2015}. 
+We expect many such explorations in the upcoming future. 
 
 
 
