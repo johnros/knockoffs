@@ -128,8 +128,20 @@ This raises several questions:
 Are these hypotheses consistent with the motivating problems?
 Why this change in hypotheses?
 
-Screening problems, such as GWAS, are good examples of variable selection.
-The inference has no causal aspirations\footnote{Otherwise, stating hypotheses with \emph{Do-Calculus} \citep{pearl1995causal} may be more appropriate.}.
+Screening problems, such as GWAS, are good examples of variable selection:
+The inference has no causal aspirations\footnote{Otherwise, stating hypotheses with \emph{Do-Calculus} \citep{pearl1995causal} may be more appropriate};
+and the design is random.
+We find that the conditional independence assumption is not quite consistent with the GWAS motivation. 
+To see this, consider two perfectly correlated SNPs. 
+One causal and the other not, but for the purpose of a screening study, both belong to the alternative. 
+Using the conditional independence hypotheses in \cite{SesiaGenehuntinghidden}, however, they will both belong to the null. 
+Using the Markov-Blanket hypotheses in \cite{CandesPanninggoldmodelX2018}, they will also belong to the null. 
+It seems to us that for the purpose of screening, marginal hypotheses, such as the ones in \cite{TusherSignificanceanalysismicroarrays2001}, are more appropriate. 
+If the purpose were not screening for associations, but rather, causal inference, then clearly the definition of hypotheses, and errors, would have required a different language altogether. 
+
+
+
+
 
 
 
