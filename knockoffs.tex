@@ -41,7 +41,7 @@
 %\end{abstract}
 
 
-\section{On the problem}
+\section{On the Motivation}
 % Variable selection with provable error guarantees. Namely, FDR control.
 
 The authors of \cite{SesiaGenehuntinghidden} set out to design a procedure for variable selection with provable statistical guarantees. 
@@ -74,7 +74,7 @@ The method of \cite{SesiaGenehuntinghidden} is similar in flavor to \cite{Barber
 
 
 
-\section{Other Knockoffs}
+\section{On Other Knockoffs}
 The idea of augmenting design matrices with random variables is not new. 
 It has been suggested many times, for the purposes of prediction, variable ranking, consistent support recovery, etc. 
 Some notable examples include the authors' own \cite{candes2006robust}.
@@ -95,7 +95,14 @@ are essentially matched pairs. To each real variable there corresponds a pseudo 
 
 
 
-\section{Other Variable Selection Methods}
+
+\section{On the Problem Setup}
+% Random versus fixed design.
+% Adequancy for GWAS?
+
+
+
+\section{On Variable Selection and Null Hypotheses}
 The problem of variable selection with error guarantees is not new. 
 Previously proposed algorithms include, for instance, Stability Selection \citep{MeinshausenStabilityselection2010}, SURE Screening \citep{fan2008sure}, BOLASSO \citep{bach2008bolasso}, Benjamini-Gavrilov \citep{Benjaminisimpleforwardselection2009}, and many more. 
 These procedures propose varying algorithms, with varying statistical guarantees in varying scenarios. 
@@ -108,6 +115,22 @@ For this purpose a linear generative model is typically assumed.
 In the linear generative case multicollinearity will render the problem non-identifiable. 
 To ensure identifiability in the fixed design, authors have proposed various conditions such as \emph{Sparse Eigenvalue}, \emph{Sparse Riesz Condition}, \emph{Neighbourhood Stability}, \emph{Irrepresentable Condition}, and \emph{Exact Recovery Criterion}. 
 See \citet[Sec 3.1.1]{MeinshausenStabilityselection2010} for a review. 
+In the random-design literature, identifiability is typically ensured with some restriction on the condition number of $Cov[x]$, or with some strong-convexity assumption on the risk surface. 
+How is identifiability ensured in the knockoff framework? 
+
+The (later version of the) knockoff framework does not deal with the linear generative case, so that null and alternative cannot be stated in terms of $\beta$ coefficients. 
+On the other hand, support recovery is a more modest goal than consistent estimation, which does not require an identifiable model. 
+Errors, and thus FDR, can thus be defined without identifiable parameters. 
+
+Lacking a parametric generative model, null and alternative need to be stated in terms of dependence. 
+\citet{CandesPanninggoldmodelX2018} define the null using a Markov-Blanket, and \cite{SesiaGenehuntinghidden} use conditional independence. 
+This raises several questions:
+Are these hypotheses consistent with the motivating problems?
+Why this change in hypotheses?
+
+Screening problems, such as GWAS, are good examples of variable selection.
+The inference has no causal aspirations\footnote{Otherwise, stating hypotheses with \emph{Do-Calculus} \citep{pearl1995causal} may be more appropriate.}.
+
 
 
 
@@ -119,13 +142,6 @@ See \citet[Sec 3.1.1]{MeinshausenStabilityselection2010} for a review.
 \section{Future Research}
 % robustness to $$F_x$$, robustness to true correlations, best statistic for power, algorithms to generate knockoffs, statistics for more than one knockoff,…
 
-
-\section{On the hypotheses}
-% How does knockoff resolve identifiability? Why hypotheses changing between papers? And link to other methods (stability selection, SURE screening, Banjamini-Gavrilov, BOLASO, hard thresholding, adaptive lasso, …).
-
-\section{On the problem setup}
-% Random versus fixed design.
-% Adequancy for GWAS?
 
 
 
