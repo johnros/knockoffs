@@ -99,6 +99,18 @@ are essentially matched pairs. To each real variable there corresponds a pseudo 
 \section{On the Problem Setup}
 % Random versus fixed design.
 % Adequancy for GWAS?
+% Knowing F_x!!
+
+
+
+The problem setup in \cite{CandesPanninggoldmodelX2018} and \cite{SesiaGenehuntinghidden} deals with random design inference, in a non-parametric generative model.
+We find this to be a very useful setup for screening problems:
+It is consistent with the random designs typically found in observational studies, and it avoids the very-useful-yet-endlessly-debated linearity assumption. 
+
+
+
+
+
 
 
 
@@ -122,7 +134,7 @@ The (later version of the) knockoff framework does not deal with the linear gene
 On the other hand, support recovery is a more modest goal than consistent estimation, which does not require an identifiable model. 
 Errors, and thus FDR, can thus be defined without identifiable parameters. 
 
-Lacking a parametric generative model, null and alternative need to be stated in terms of dependence. 
+Lacking a parametric generative model, null and alternative have a more information-theoretic flavor, and are stated in terms of dependence. 
 \citet{CandesPanninggoldmodelX2018} define the null using a Markov-Blanket, and \cite{SesiaGenehuntinghidden} use conditional independence. 
 This raises several questions:
 Are these hypotheses consistent with the motivating problems?
