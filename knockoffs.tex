@@ -95,13 +95,19 @@ are essentially matched pairs. To each real variable there corresponds a pseudo 
 
 
 
-
-
-
-
-
 \section{Other Variable Selection Methods}
-% stability selection, SURE screening, Banjamini-Gavrilov, BOLASO, hard thresholding, adaptive lasso, …
+The problem of variable selection with error guarantees is not new. 
+Previously proposed algorithms include, for instance, Stability Selection \citep{MeinshausenStabilityselection2010}, SURE Screening \citep{fan2008sure}, BOLASSO \citep{bach2008bolasso}, Benjamini-Gavrilov \citep{Benjaminisimpleforwardselection2009}, and many more. 
+These procedures propose varying algorithms, with varying statistical guarantees in varying scenarios. 
+We do not review this literature for the sake of brevity. 
+We do, however, wish to discuss the matter of identifiability and estimability. 
+I.e., is the parameter well defined, and is the estimation problem well-posed? 
+
+When doing variable selection, one will always require some assumption to ensure that ``a good'' selection is well defined. 
+For this purpose a linear generative model is typically assumed. 
+In the linear generative case multicollinearity will render the problem non-identifiable. 
+To ensure identifiability in the fixed design, authors have proposed various conditions such as \emph{Sparse Eigenvalue}, \emph{Sparse Riesz Condition}, \emph{Neighbourhood Stability}, \emph{Irrepresentable Condition}, and \emph{Exact Recovery Criterion}. 
+See \citet[Sec 3.1.1]{MeinshausenStabilityselection2010} for a review. 
 
 
 
