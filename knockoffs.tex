@@ -174,32 +174,22 @@
 	The ratio between the cutoff of some FDR controlling procedure, and FWER control with Bonferroni, is thus $\bigl\{1+\log(|S|)/\log (p/q)\bigr\}^{1/2}$, so that if $|\mathcal{S}|\ll p$, and the methods have similiar power for identical hypotheses. 
 	We now need to show that the price of provable FDR control of the knockoffs, may be quite large compared to classical techniques. 
 	
-	But the main problem seems to be  a direct power loss due to the randomization.
-	Here is a toy problem.
-	Consider the very simple model where we observe $Y=\beta^T X+\epsilon$, $\epsilon\sim N(0,\sigma^2)$, $X\in R^{2p}$, $(X_1,X_2),\dots,(X_{2p-1},X_{2p})$ are i.i.d.,   $(X_{2j-1},X_{2j})^T\sim N_2(0,\Sigma)$ where $\Sigma=\begin{pmatrix}1 & \rho\\\rho &1\end{pmatrix}$.
+	We observe $Y=\beta^T X+\epsilon$, $\epsilon\sim \mathcal{N}(0,\sigma^2)$.
+	The predictors are correlated in pairs: $X\in R^{2p}$, $(X_1,X_2),\dots,(X_{2p-1},X_{2p})$ are i.i.d.,   $(X_{2j-1},X_{2j})^T\sim \mathcal{N}_2(0,\Sigma)$ where $\Sigma=\begin{pmatrix}1 & \rho\\\rho &1\end{pmatrix}$.
 	\citet{CandesPanninggoldmodelX2018} show that the knockoffs are given by
 	\begin{equation*}
-		\begin{split}
-			{\mathcal L}\Bigl\{\begin{pmatrix}\tilde X_{2j-1}\\\tilde X_{2j}\end{pmatrix}|X=x\Bigr\} = N_2\Bigl((I+\lambda \Sigma^{-1})\begin{pmatrix}x_{2j-1}\\x_{2j}\end{pmatrix},\hspace{1em} 2\lambda I-\lambda^2\Sigma^{-1}\Bigr),
-		\end{split}
+	(\tilde X_{2j-1},\tilde X_{2j}|X=x) \sim 
+	\mathcal{N}_2\Bigl((I+\lambda \Sigma^{-1})(x_{2j-1},x_{2j})^T,\hspace{1em} 2\lambda I-\lambda^2\Sigma^{-1}\Bigr),
 	\end{equation*}
 	where $\lambda<2(1-\rho)$.
-	However, tedious calculations show the effect size needed to be detected with reasonable power is larger by at least a factor of $(1-\rho^2)^{-1/2}$ (for the optimal selected $\lambda$ which is the minimal). As we mentioned, the main motivation to use FDR is that it reduces the needed effect size by a factor of $(1+\log(|S|)/\log(p/q))^{1/2}$.
-	This may be a negligible gain relative to the above loss due to randomization.
-	It seems that keeping the family-wise error-rate at $q$ using a Bonferroni method will yield more power (and hence, in effect, better detection) than the randomized knockoff method.
+	Our calculations show the effect size needed to be detected with knockoffs with reasonable power is larger by at least a factor of $(1-\rho^2)^{-1/2}$ compared to classical linear regression with Bonferonni FWER control (for the optimal selected $\lambda$ which is the minimal). 
+	If the correlations are strong, i.e. $\rho \approx 1$, the power loss is considerable.
+	Combining with the fact that in our setup the FDR and FWER rejection cutoffs are similar, we conclude this is clearly an unfavorable setup for knockoffs. 
 	
 	
-		
-	We come now to the potential loss of efficiency of the knockoff method as described.
-	Suppose, for example, that the distribution of $T_j$ has much heavier far away tails for null variables.
+	Another way to design an adversarial example, is simply letting the tails of the null test statistics to be heavier than the alternative. 
 	The selection cutoff will be driven by the few selected null variables with heavier tails, at the risk of masking non-nulls.
-	The knockoff method thus does not save the need for very careful selection of the test statistics, and using it with difficult to analyze large dimensional methods like the lasso is questionable, where the standard error of each variable is different.
-	
-	
-	
-	
-	
-	
+	This is perhaps a less realistic setup than our previous, but will clearly hurt the power of the knockoff procedure. 
 	
 	
 	
