@@ -137,6 +137,24 @@
 		
 	
 	
+	\section{On Sampling from HMMs}
+	In \cite{SesiaGenehuntinghidden} the explanatory variables are considered as HMM: there is a latent Markov process $Z$, such that the observations $X_1,\dots,X_p$ are independent given $Z$ and ${\mathcal L}(X_j|Z)={\mathcal L}(X_j|Z_j)$.
+	The knockoff construction algorithm is based on sampling from the Markov process $X\to Z\to \tilde Z\to \tilde X$, so that $(\tilde Z,\tilde X)$ is a knockoff of $(Z,X)$.
+	Since we only need that $\tilde{X}$ be a knockoff of $X$, then it is not clear to us why the extra step of a random sample of $\tilde Z$ is needed? Can we not sample directly $X\to Z\to \tilde X$?
+	
+	Is knowledge of $F_X$ realistic for HMMs?
+	Now, any process can be  represented as a weak limit of \emph{non-stationary} HMMs.
+	The difficulty is, of course, with the number of needed parameters.
+	If you consider $K$ hidden states and $L$ possible output values then the number of parameters is approximately $pK(K+L-2)$.
+	With the $n$ and $p$ as in the examples, the demand that the estimated model will be considered as ``known'', enforces quite as small $K$, and hence the HMM assumption is restrictive.
+	An HMM is not Markovian, but it is exponentially mixing.
+	Practically speaking, $K$ small does not enable medial range non-monotone dependency, as one may find in GWAS due to Linkage-Disequilibriumm.
+	If $n$ forces $K$ small, so that dependencies are local, one may be better of considering a test under local dependencies.
+	In such a test, marginal and conditional nulls are the same except locally.
+	One may thus test for independence between $Y$ and $X_j$ and some of its neighbors, while ignoring distant $j$'s.
+	
+	
+	
 	
 	
 	\section{Power Considerations and Adversarial Examples}
@@ -145,7 +163,8 @@
 	Below we try to design some adversarial examples, where knockoffs may not be favorable. 
 	From the practitioners' view, a ``knockoff do's and don'ts'' is certainly welcome. 
 	
-	In the set up we consider the number of variables is ultra high (i.e., in the $p\gg n$ situation), most of them are true nulls. To be more precise, the asymptotics we consider are such that 
+	In the set up we consider the number of variables is ultra high (i.e., in the $p\gg n$ situation), most of them are true nulls. 
+	To be more precise, the asymptotics we consider are such that 
 	%the number of rejected to not rejected nulls
 	the proportion of false hypotheses \marg{please check my edit}
 	goes to 0. Moreover, we assume that the $p$ test statistics have sub-Gaussian distribution. We argue that in our models, if the the familywise-error-rate (FWER) is $q$, then  the Bonferroni correction procedure has more power than the knockoff methods. The argument stands on two legs. Firstly, an optimal FDR procedure gives only a small power gain relative to an FWER procedure. Secondly, the knockoff methods is losing considerable power due to the built-in randomization.
@@ -189,22 +208,6 @@
 	
 	
 	
-	
-	\section{On Sampling from HMMs}
-	In \cite{SesiaGenehuntinghidden} the explanatory variables are considered as HMM: there is a latent Markov process $Z$, such that the observations $X_1,\dots,X_p$ are independent given $Z$ and ${\mathcal L}(X_j|Z)={\mathcal L}(X_j|Z_j)$.
-	The knockoff construction algorithm is based on drawing a single sample from the Markov process $X\to Z\to \tilde Z\to \tilde X$, where $(\tilde Z,\tilde X)$ is a knockoff of $(Z,X)$.
-	It is not clear to us why the extra step of a random sample of $\tilde Z$ is needed, and why we cannot sample directly according to the Markov process $X\to Z\to \tilde X$ where $(Z,X)$ and $(Z,\tilde X)$ are identically distributed.
-	
-	Is knowledge of $F_X$ realistic for HMMs?
-	Now, any process can be  represented as a weak limit of \emph{non-stationary} HMMs.
-	The difficulty is, of course, with the number of needed parameters.
-	If you consider $K$ hidden states and $L$ possible output values then the number of parameters is approximately $pK(K+L-2)$.
-	With the $n$ and $p$ as in the examples, the demand that the estimated model will be considered as ``known'', enforces quite as small $K$, and hence the HMM assumption is restrictive.
-	An HMM is not Markovian, but it is exponentially mixing.
-	Practically speaking, $K$ small does not enable medial range non-monotone dependency, as one may find in GWAS due to Linkage-Disequilibriumm.
-	If $n$ forces $K$ small, so that dependencies are local, one may be better of considering a test under local dependencies.
-	In such a test, marginal and conditional nulls are the same except locally.
-	One may thus test for independence between $Y$ and $X_j$ and some of its neighbors, while ignoring distant $j$'s.
 	
 	
 	
