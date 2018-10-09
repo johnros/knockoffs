@@ -1,209 +1,244 @@
 %\documentclass[manuscript]{biometrika}
 \documentclass[article,lineno]{biometrika}
 \input{preamble.tex}
-
+\usepackage{marg}
 \begin{document}
-
-\jname{Biometrika}
-%% The year, volume, and number are determined on publication
-\jyear{2018}
-\jvol{yyy}
-\jnum{y}
-%% The \doi{...} and \accessdate commands are used by the production team
-%\doi{10.1093/biomet/asm023}
-\accessdate{yyy}
-
-%% These dates are usually set by the production team
-\received{{\rm y} yyy {\rm yyyy}}
-\revised{{\rm y} yyy {\rm yyyy}}
-
-%\received{January 2017}
-%\revised{April 2017}
-
-
-%% The left and right page headers are defined here:
-\markboth{J. D. Rosenblatt \and J.J. Goeman}{Biometrika style}
-
-%% Here are the title, author names and addresses
-\title{Discussion of Sesia et al. and the Knockoff Framework}
-
-\author{Jonathan D. Rosenblatt}
-\affil{Dept. of Industrial Engineering and Management, \\
-	Ben Gurion University of the Negev, Israel.\email{johnros@bgu.ac.il}}
-
-\author{\and Jelle J. Goeman}
-\affil{Department of Biomedical Data Sciences, 
-Leiden University Medical Center, The Netherlands.\email{J.J.Goeman@lumc.nl}}
-
-\maketitle
-
-%\begin{abstract}
-%TODO
-%\end{abstract}
-
-
-\section{On the Motivation}
-% Variable selection with provable error guarantees. Namely, FDR control.
-
-The authors of \cite{SesiaGenehuntinghidden} set out to design a procedure for variable selection with provable statistical guarantees.
-The \emph{knockoff} algorithm proposed by \cite{SesiaGenehuntinghidden}, provably controls the $FDR$ of conditionally independent variables.
-Denoting with $x$ and $y$ the predictor and outcome variables, respectively.
-The \emph{false discovery proportion}, a.k.a.\ the \emph{false selection proportion}, is defined as $FDP:=V/R$ where $R$ is the number of variables selected, and $V$ is the number of falsely selected.
-A false selection defined by \cite{SesiaGenehuntinghidden} to be a selected $x_j$ where $y|x_{-j}$ is independent of $x_j$.
-The knockoff algorithm of \cite{SesiaGenehuntinghidden} provably control the $FDR:=\mathbb{E}[FDP]$, at some user selected magnitude.
-
-[TODO: consistent notation $x$ or $X$? JDR:$x$ for random predictors, and $X$ for the observed design.]
-
-The fundamental idea of the method is to generate variables that have all the properties of the original $x_j$, only that they are conditionally uncorrelated to $y$.
-These are termed \emph{knockoff} variables.
-The method then proceeds to compute a test statistic that captures the difference between the dependence of $y$ to $x_j$ and to its knockoff.
-[TODO: how is a variable actually selected?]
-
-Crucially for our discussion:
-(1) The $FDR$ is an expectation with respect to variability in $x$ and $y$, i.e., a \emph{random design} guarantee.
-(2) The procedure is \emph{model-free}, i.e.\ \emph{non-parametric}, in that nothing is assumed on the form of $y|x$.
-(3) The proofs assume full knowledge of $F_x$, i.e., the joint distribution of predictors, marginalized over $y$.
-(4) The method aims at good variable selection, not prediction.
-
-We think of the method in \cite{SesiaGenehuntinghidden} as an adaptation of \cite{CandesPanninggoldmodelX2018} to genome-wide association studies (GWAS).
-The differences between the two:
-(1) The non-null variables in \cite{CandesPanninggoldmodelX2018} are those that belong to the minimal set that renders all others independent, i.e., the non-null is the Markov-Blanket of $x$ on $y$.
-In \cite{SesiaGenehuntinghidden}, the non-null variables are those with non-null partial correlations.
-(2) \cite{CandesPanninggoldmodelX2018} discusses a multivariate Gaussian model, while \cite{SesiaGenehuntinghidden} a hidden Markov model.
-An important contribution in each paper is an algorithm for sampling knockoffs from the assumed model.
-
-The method of \cite{SesiaGenehuntinghidden} is also similar in flavor to \cite{BarberControllingfalsediscovery2015}, with the following differences:
-(1) \cite{BarberControllingfalsediscovery2015} assume a linear generative model, so that the null is simply $H_j:\beta_j=0$.
-(2) \cite{BarberControllingfalsediscovery2015} crucially assume $n>p$, and Gaussian distributed errors.
-(3) \cite{BarberControllingfalsediscovery2015} infer conditional on $X_{n \times p}:=(x_1,\dots,x_n)'$. They thus control a fixed-design FDR, and not the random-design.
-
-
-
-\section{On the Problem Setup}
-
-The problem setup in \cite{CandesPanninggoldmodelX2018} and \cite{SesiaGenehuntinghidden} deals with random design inference, in a non-parametric generative model.
-We find this to be a very useful setup for screening problems:
-It is consistent with the random designs typically found in observational studies, and it avoids the very-useful-yet-controversial linearity assumption.
-
-A more surprising component of the problem setup is the knowledge of $F_x$, i.e., the joint distribution of predictors, marginalized over $y$.
-Many authors would consider this an Oracle assumption, and given the difficulty of estimating joint distributions, an unrealistic one.
-%[We, on the other hand, do not find this such a troubling assumption for the following reasons:
-%(1) In many applications the dimensionality of $F_x$ can be reduced to a tractable one. The HMM assumption of \cite{SesiaGenehuntinghidden} is an example.
-%(2) The preliminary results of \cite{CandesPanninggoldmodelX2018} show that FDR-control is quite robust to errors in $F_x$. We expect this matter to be further investigated in the future.]
-The GWAS application, however, represents an ideal situation in which much is known about $F_x$, e.g.\ from the HapMap project \citep{Hapmap2003}.
-Other areas of potential application include semi-supervised settings in which $F_x$ may be inferred from extra observations of $X$. 
-In general high-dimensional data settings, however, $F_x$ has so many parameters that estimating it may turn out be a more difficult problem than estimating the conditional distribution of $y|x$.
-In all cases, robustness to errors in $F_x$ is crucial for the practical usefulness of the method, and we are happy to see the promising preliminary results of \cite{CandesPanninggoldmodelX2018}.
-The pruning step in the GWAS example of \cite{SesiaGenehuntinghidden} suggests that high collinearity may adversely affect the performance of the method. We suspect that the higher the correlations in $F_x$, the more precisely $F_x$ should be known.
-We expect this matter to be further investigated in the future.
-
-
-\section{Knockoffs as Pseudo-variables}
-The idea of augmenting design matrices with random variables is not new.
-It has been suggested many times, for the purposes of prediction, variable ranking, consistent support recovery, etc.
-\cite{TusherSignificanceanalysismicroarrays2001} have already proposed the idea of permuting the original variables for FDR control on selected variables.
-While intuitive and elegant, their algorithm did not have any provable guarantees, and implies marginal nulls and not conditional: $H_j:Cov[y,x_j]=0$, and not $H_j:Cov[y,x_j|x_{-j}]=0$.
-Some more algorithms adding ``fake'', ``phony'', ``probes'' or ``pseudo variables'', are reviewed in \cite{GuyonIntroductionVariableFeature2003}.
-
-Perhaps the most similar work is that of \cite{WuControllingVariableSelection2007}, which not only propose adding ``pseudo-variables'' for the purpose of estimating the variable selection FDR, but also require two conditions very similar to the knockoff conditions.
-\cite{WuControllingVariableSelection2007} require that:
-``(A1) real unimportant variables and phony unimportant variables have the same probability of being selected on average'', and
-``(A2) real important variables have the same probability of being selected whether or not phony variables are present''.
-These two conditions cannot be satisfied according to \cite{WuControllingVariableSelection2007}, but they are clearly related to the \emph{pairwise exchangeability} and \emph{nullity condition} in \cite{SesiaGenehuntinghidden} and \cite{CandesPanninggoldmodelX2018}.
-One may thus view the two knockoff conditions as a satisfiable version of A1 and A2.
-To the credit of \cite{WuControllingVariableSelection2007} we quote their insights, which already hint at what will be later formalized in the knockoff conditions:
-``Permutation produces pseudovariables that when appended to the real data create what
-are essentially matched pairs. To each real variable there corresponds a pseudo variable with identical sample moments and also with preservation of correlations''.
-
-
-
-\section{On Null Hypotheses and Invariants}
-The problem of variable selection with error guarantees is not new.
-Previously proposed algorithms include, for instance, Stability Selection \citep{MeinshausenStabilityselection2010}, SURE Screening \citep{fan2008sure}, BOLASSO \citep{bach2008bolasso}, Benjamini-Gavrilov \citep{Benjaminisimpleforwardselection2009}, and many more.
-These procedures propose varying algorithms, with varying statistical guarantees in varying scenarios.
-We do not review this literature for the sake of brevity.
-We do, however, wish to discuss the matter of identifiability and estimability.
-I.e., is the parameter well defined, and is the estimation problem well-posed?
-
-When doing variable selection, one will always require some assumption to ensure that ``a good'' selection is well defined.
-For this purpose a linear generative model is typically assumed.
-In the linear generative case multicollinearity will render the problem non-identifiable.
-To ensure identifiability in the fixed design, authors have proposed various conditions such as \emph{Sparse Eigenvalue}, \emph{Sparse Riesz Condition}, \emph{Neighbourhood Stability}, \emph{Irrepresentable Condition}, and \emph{Exact Recovery Criterion}.
-See \citet[Sec 3.1.1]{MeinshausenStabilityselection2010} for a review.
-In the random-design literature, identifiability is typically ensured with some restriction on the condition number of $Cov[x]$, or with some strong-convexity assumption on the risk surface.
-
-How is identifiability ensured in the knockoff framework?
-The crucial assumption is the knowledge of the distribution $F_x$, which avoids difficult to check sparsity conditions.
-[TODO Jelle: I argue identifiability is neither ensured nor required in this setup]
-The resulting invariance property in \cite{SesiaGenehuntinghidden} describes so-called \emph{null-invariant transformations} \citep{Goeman2010}: 
-the joint distribution of the augmented data $(Y,X,\tilde X)$ is invariant under the transformation $\textrm{swap}(S)$ provided that $S$ is the set of true nulls.
-Known null-invariant transformations, e.g.\ permutations and rotations \citep{Langsrud2005}, existed so far only for null hypotheses about marginal association.
-As far as we know, knockoffs are the first null-invariant transformations with respect to conditional nulls, and not marginal nulls.
-Seeing knockoffs as null-invariants opens the way for their more classical use, e.g.\ using multiple random knockoffs \citep{Hemerik2018}, or for controlling familywise error in the manner of \cite{Westfall1993}.
-Since familywise error control is the norm in the field of GWAS, the latter would be a worthwile extension.
-
-
-\section{The Question of causality}
-
-The random-design knockoff framework does not deal with the linear generative case, so that null and alternative cannot be stated in terms of $\beta$ coefficients.
-On the other hand, support recovery, unlike consistent estimation, does not require an identifiable model.
-Errors, and thus FDR, can thus be defined without identifiable parameters.
-
-Lacking a parametric generative model, null and alternative have a more information-theoretic flavor, and are stated in terms of dependence.
-\citet{CandesPanninggoldmodelX2018} define the null using a Markov-Blanket, and \cite{SesiaGenehuntinghidden} use conditional independence.
-This raises several questions:
-Are these hypotheses consistent with the motivating problems?
-Why this change in hypotheses?
-
-We find that the conditional independence nulls is not quite consistent with screening problems such as GWAS.
-To see this, consider two perfectly correlated SNPs.
-One causal and the other not.
-In a screening study, we want to discover both. 
-Using the conditional independence hypotheses in \cite{SesiaGenehuntinghidden}, however, they both belong to the null.
-Using the Markov-Blanket hypotheses in \cite{CandesPanninggoldmodelX2018}, they will also belong to the null.
-A similar concern was raised by J.T.\ Kent in the discussion of \cite{MeinshausenStabilityselection2010}.
-It seems to us that for the purpose of screening, marginal hypotheses, such as the ones in \cite{TusherSignificanceanalysismicroarrays2001}, are more appropriate.
-If the purpose were not screening for associations, but rather, causal inference, then clearly the definition of hypotheses, and errors, would have required a different language altogether. 
-Maybe the language of Do-Calculus \citep{pearl1995causal} would have been more appropriate 
-The authors, however, postpone the causal question: 
-``By discovering which variables are important, scientists can design a more targeted follow-up investigation and hope to understand how certain factors influence an outcome.''
-[TODO: do we have an opinion about this?]
-
-
-
-
-
-
-\section{Future Research}
-% robustness to $$F_x$$, robustness to true correlations, best statistic for power, algorithms to generate knockoffs, statistics for more than one knockoff,…
-
-We find the knockoff framework to be quite exciting.
-Not because it offers solutions to all possible difficulties, but on the contrary: because it sets the stage for many important research questions.
-Are error guarantees robust to misspecification of $F_x$?
-What test statistics have more power?
-Knockoffs are not uniquely defined so how to best generate them?
-Do methods defined for other null-invariants, such as permutations, generalize to knockoffs easily?
-How to sample them efficiently?
-Does screening with knockoffs have more power than the linear model (even if miss-specified)?
-
-The assumption of knowing $F_x$, even without the knockoff variables, paves the way for interesting research. 
-For instance, in an observational study assuming a linear generative model, why not estimate $Var[\hat{\beta}]$ with $\mathbb{E}[(xx')^{-1}]\sigma^2$ instead of $(X'X)^{-1}\sigma^2$?
-[TODO: Yanki- does your on LSE example fit here?]
-
-\cite{DaiknockofffilterFDR2016}, \cite{JansonFamilywiseerrorrate2016}, \cite{ChenAnalysisKnockoffFilter2017}, \cite{ChenPseudoKnockoffFilter2017}, and others, have already started to explore and extend the knockoff framework of \cite{BarberControllingfalsediscovery2015}.
-We expect many such explorations in the upcoming future.
-
-
-
-\section*{Acknowledgement}
-The authors thank Prof. Yaakov Ritov, Dr. Aldo Solari, Dr. Livio Finos, and ... for fruitful discussions leading to this manuscript.
-
-
-[TO DISCUSS; in relation to identifiab
-
-\bibliographystyle{biometrika}
-\bibliography{paper-ref}
-
-
-
+	
+	\jname{Biometrika}
+	%% The year, volume, and number are determined on publication
+	\jyear{2018}
+	\jvol{yd}
+	\jnum{y}
+	%% The \doi{...} and \accessdate commands are used by the production team
+	%\doi{10.1093/biomet/asm023}
+	\accessdate{yd}
+	
+	%% These dates are usually set by the production team
+	\received{{\rm y} yd {\rm YandY}}
+	\revised{{\rm y} yd {\rm YandY}}
+	
+	%\received{January 2017}
+	%\revised{April 2017}
+	
+	
+	%% The left and right page headers are defined here:
+	\markboth{J. D. Rosenblatt, Y. Ritov, \and J.J. Goeman}{Discussion of Sesia et al. and the Knockoff Framework}
+	
+	%% Here are the title, author names and addresses
+	\title{Discussion of Sesia et al. and the Knockoff Framework}
+	
+	\author{\and Jonathan D. Rosenblatt}
+	\affil{Dept. of Industrial Engineering and Management, \\
+		Ben Gurion University of the Negev, Israel.\email{johnros@bgu.ac.il}}
+	
+	\author{ Ya'\hspace{-0.2em}acov Ritov}
+	\affil{Department of Statistics, University of Michigan, USA\email{yritov@umich.edu}}
+	
+	\author{Jelle J. Goeman}
+	\affil{Department of Biomedical Data Sciences,
+		Leiden University Medical Center, The Netherlands.\email{J.J.Goeman@lumc.nl}}
+	
+	
+	
+	\maketitle
+	
+	%\begin{abstract}
+	%\end{abstract}
+	
+	
+	\section{On the Motivation}
+	% Variable selection with provable error guarantees. Namely, FDR control.
+	
+	The authors of \cite{SesiaGenehuntinghidden} set out to design a procedure for variable selection with provable finite sample statistical guarantees.
+	The \emph{knockoff} algorithm proposed by \cite{SesiaGenehuntinghidden}, provably controls the $\rm{FDR}$ of conditionally independent variables.
+	Denoting with $X:=(X_j)_{j=1}^p$ and $Y$ the predictor and outcome variables, respectively.
+	The \emph{false discovery proportion}, a.k.a.\ the \emph{false selection proportion}, is defined as $\rm{FDP}:=V/R$ where $R$ is the number of variables selected, and $V$ is the number of falsely selected.
+	A false selection defined by \cite{SesiaGenehuntinghidden} to be a selected $X_j$ where $Y|X_{-j}$ is independent of $X_j$.
+	The knockoff algorithm of \cite{SesiaGenehuntinghidden} provably controls the $\rm{FDR}:=\mathbb{E}[\rm{FDP}]$, at some user selected magnitude.
+	
+	The fundamental idea of the method is to generate another set of variables, the \emph{knockoffs}, that are exchangeable with the original $X_j$s, only that  conditionally on $X$ they are uncorrelated with $Y$.
+	The method then proceeds to compute a test statistic that captures the difference between the apparent dependence between $Y$ and $X_j$ and to that of $Y$ with the knockoff $\tilde X_j$.
+	
+	Crucially for our discussion:
+	(1) The $\rm{FDR}$ is an expectation with respect to variability in $X$ and $Y$, i.e., it is based on  a \emph{random design} guarantee.
+	(2) The procedure is \emph{model-free}, i.e.\ \emph{non-parametric}, with respect to prediction, in that nothing is assumed on the form of $Y|X$.
+	(3) The framework assumes full knowledge of $F_X$, i.e., the joint distribution of predictors, marginalized over $Y$. In application it is based on the assumption that $F_X$ can be estimated well enough to be assumed known.
+	(4) The method aims at good variable selection and not prediction, estimation nor ranking.
+	
+	We think of the method in \cite{SesiaGenehuntinghidden} as an adaptation of \cite{CandesPanninggoldmodelX2018} to genome-wide association studies (GWAS).
+	The differences between the two:
+	(1) The non-null variables in \cite{CandesPanninggoldmodelX2018} are those that belong to the minimal set that renders all others independent, i.e., the non-null is the Markov-Blanket of $X$ on $Y$.
+	In \cite{SesiaGenehuntinghidden}, the non-null variables are those with non-null partial correlations. Under some minimal conditions these two sets are the same.
+	(2) \cite{CandesPanninggoldmodelX2018} discusses a multivariate Gaussian model, while \cite{SesiaGenehuntinghidden} a hidden Markov model (HMM).
+	An important contribution in each paper is an algorithm for sampling knockoffs from the assumed model.
+	
+	The method of \cite{SesiaGenehuntinghidden} is also similar in flavor to \cite{BarberControllingfalsediscovery2015}, with the following differences:
+	(1) \cite{BarberControllingfalsediscovery2015} assume a linear generative model, so that the null is simply $H_j:\beta_j=0$.
+	(2) \cite{BarberControllingfalsediscovery2015} crucially assume $n>p$, and Gaussian distributed errors.
+	(3) \cite{BarberControllingfalsediscovery2015} control the fixed-design \rm{FDR}, which is stronger, and implies, random-design control.
+	
+	
+	
+	\section{On the Problem Setup}
+	
+	The problem setup in \cite{CandesPanninggoldmodelX2018} and \cite{SesiaGenehuntinghidden} deals with random design inference, in a non-parametric model.
+	We find this to be a very useful setup for screening problems:
+	It is consistent with the random designs typically found in observational studies, and it avoids the very-useful-yet-controversial linearity assumption.
+	
+	A more surprising component of the problem setup is the knowledge of $F_X$, i.e., the joint distribution of predictors, marginalized over $Y$.
+	Many authors would consider this an Oracle assumption, and given the difficulty of estimating joint distributions, an unrealistic one.
+	%[We, on the other hand, do not find this such a troubling assumption for the following reasons:
+	%(1) In many applications the dimensionality of $F_X$ can be reduced to a tractable one. The HMM assumption of \cite{SesiaGenehuntinghidden} is an example.
+	%(2) The preliminary results of \cite{CandesPanninggoldmodelX2018} show that FDR-control is quite robust to errors in $F_X$. We expect this matter to be further investigated in the future.]
+	The GWAS application, however, represents an ideal situation in which much is known about $F_X$, e.g.\ from the HapMap project \citep{Hapmap2003}.
+	Other areas of potential application include Semi-Supervised Machine Learning in which $F_X$ may be inferred from extra observations of $X$.
+	In general high-dimensional data settings, however, $F_X$ has so many parameters that estimating it may turn out be a more difficult problem than estimating the conditional distribution of $Y|X$.
+	In all cases, robustness to errors in $F_X$ is crucial for the practical usefulness of the method, and we are happy to see the promising preliminary results of \cite{CandesPanninggoldmodelX2018}.
+	On the other hand, the pruning step in the GWAS example of \cite{SesiaGenehuntinghidden} suggests that strong dependencies may adversely affect the performance of the method; both with respect to power, and with respect to the tails of the $FDP$ distribution.
+	We expect this matter to be further investigated in the future.
+	
+	
+	
+	
+	\section{Knockoffs as Pseudo-Variables}
+	The idea of augmenting design matrices with random variables is not new.
+	It has been suggested many times, for the purposes of prediction, variable ranking, large-sample support recovery, etc.
+	\cite{TusherSignificanceanalysismicroarrays2001} have already proposed the idea of permuting the original variables for \rm{FDR} control on selected variables.
+	While intuitive and elegant, their algorithm did not have any provable guarantees, and implies marginal nulls and not conditional.
+	Some more algorithms adding ``fake'', ``phony'', ``probes'' or ``pseudo variables'', are reviewed in \cite{GuyonIntroductionVariableFeature2003}.
+	
+	Perhaps the most similar work is that of \cite{WuControllingVariableSelection2007}, which not only propose adding ``pseudo-variables'' for the purpose of estimating the variable selection \rm{FDR}, but also require two conditions very similar to the knockoff conditions.
+	\cite{WuControllingVariableSelection2007} require that:
+	``(A1) real unimportant variables and phony unimportant variables have the same probability of being selected on average'', and
+	``(A2) real important variables have the same probability of being selected whether or not phony variables are present''.
+	These two conditions cannot be satisfied according to \cite{WuControllingVariableSelection2007}, but they are clearly related to the \emph{pairwise exchangeability} and \emph{nullity condition} in \cite{SesiaGenehuntinghidden} and \cite{CandesPanninggoldmodelX2018}.
+	One may thus view the two knockoff conditions as a satisfiable version of Wu's A1 and A2.
+	To the credit of \cite{WuControllingVariableSelection2007} we quote their insights, which already hint at what will be later formalized in the knockoff conditions:
+	``Permutation produces pseudovariables that when appended to the real data create what
+	are essentially matched pairs. To each real variable there corresponds a pseudo variable with identical sample moments and also with preservation of correlations''.
+	
+	
+	
+	\section{Conditional resampling}
+	The invariance property in \cite{SesiaGenehuntinghidden} describes so-called \emph{null-invariant transformations} \citep{Goeman2010}:
+	the joint distribution of the augmented data $(Y,X,\tilde X)$ is invariant under the transformation $\textrm{swap}(S)$ provided that $S$ is a set of true nulls.
+	Known null-invariant transformations, e.g.\ permutations and rotations \citep{Langsrud2005}, existed so far only for null hypotheses about marginal association.
+	E.g.\ \citet{TusherSignificanceanalysismicroarrays2001} use a knockoff-like framework to test marginal, not conditional, nulls. This method was recently proven to control tail probabilities of the False Discovery Proportion \citep{Hemerik2018}.
+	Which null hypothesis is to be preferred? Conditional of marginal?
+	Think of two correlated SNPs.
+	One causal and the other is not.
+	In a screening experiment such as GWAS, we would like both to be selected.
+	It thus seems to us that for the purpose of screening, marginal nulls, not conditional, are desirable.
+	
+	Knockoffs represent, as far as we know, the first null-invariant transformations with respect to conditional nulls rather than marginal nulls.
+	Seeing knockoffs as null-invariants opens the way for their more classical use, e.g.\ using multiple random knockoffs for controlling familywise error in the manner of \cite{Westfall1993}. Since familywise error control is the norm in the field of GWAS, the latter would be a worthwhile extension. An alternative resampling approach for testing for dependence between $Y$ and $X_j$ would be to sample from the conditional distribution of $X_j$ given $X_{-j}$. This approach was found to be powerful in \cite{CandesPanninggoldmodelX2018}, but dismissed there for computational reasons; it was not considered again in \cite{SesiaGenehuntinghidden}. This may be a missed opportunity. 
+	Conditonal resampling can be done easily in the context of hidden Markov models, where, for example, if $Y\in \{0,1\}$, one can easily test for conditional independence in the $2\times L$ table of $Y$ and $X_j$. Resampling-based methods such as \cite{Westfall1993} are computationally quite efficient, requiring only a small multiple of $\alpha^{-1}$ resampled data sets for powerful familywise error control at level $\alpha$. Alternatively, applying early stopping \citep[e.g.][]{jiang2012statistical}, and tail resampling \cite[e.g.][]{yu2011efficient} can be used for additional computational efficiency.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	\section{Power Considerations and Counter Examples}
+	
+	There are many examples were the knockoffs work excellently well and a few of them are given by the authors. We give below counter examples. We find it  useful if the authors advise us when to use the knockoff method and when other methods will be more practical.
+	
+	In the set up we consider the number of variables is ultra high (i.e., in the $p\gg n$ situation), most of them are true nulls. To be more precise, the asymptotics we consider are such that 
+	%the number of rejected to not rejected nulls
+	the proportion of false hypotheses \marg{please check my edit}
+	goes to 0. Moreover, we assume that the $p$ test statistics have sub-Gaussian distribution. We argue that in our models, if the the familywise-error-rate (FWER) is $q$, then  the Bonferroni correction procedure has more power than the knockoff methods. The argument stands on two legs. Firstly, an optimal FDR procedure gives only a small power gain relative to an FWER procedure. Secondly, the knockoff methods is losing considerable power due to the built-in randomization.
+	
+	The main justification for preferring the FDR criterion over the FWER one is that the FWER seems to be too conservative and if the number of the true alternatives, $|S|$ is large, we can permit some  false detections. However under some standard assumptions, if we consider $p$ test statistics each of them with (marginally) $N(0,1)$ distribution under the null, rejecting $q|S|$ true nulls on the average means rejecting variables with test statistics greater than $\sqrt{2\log(p/q|S|)}$ and not $\Phi^{-1}(1-q/p)\approx\sqrt{2\log (p/q)}$ as would be implied by a standard Bonferroni correction .
+	That implies  the effect size of an alternative can be $\bigl\{1+\log(|S|)/\log (p/q)\bigr\}^{1/2}$ smaller while keeping its power level constant. However, this ratio is very close to 1 when $p\gg q|S|$ as it is the case in most $p\gg n$ models of interest. This leaves a small margin of inefficiency for a method that its main justification is a proven FDR.
+	We argue now that knockoff methods, being randomized procedures, are strictly inefficient in this situation.
+	
+	Knockoff methods reject all variables such that $W_j\ge \hat t$, where $W_j$ is the difference in the criterion applied to $X_j$ and $\tilde X_j$, and
+	\begin{equation*}
+		\hat t = \inf\Bigl\{t: \frac{c+|\{j: W_j\le -t\}|}{1\vee|\{j: W_j\ge t\}|}\leq q\Bigr\},
+	\end{equation*}
+	where $c\in\{0,1\}$.
+	Setting $c=0$ yields the standard knockoff method, which provably controls only $mFDR=\mathbb{E} \Bigl[|\hat S\cap {\mathcal H}_0|/(|\hat S|+1/q)\Bigr]\le q$.
+	Setting $c=1$ yields the \emph{knockoff+} method, which provably control the usual FDR.
+	
+	What happens when the number of true alternatives is small?
+	If $|\hat S|\not\gg q^{-1}$ then $mFDR \ll FDR$.
+	In fact, the actual FDR under the null of the knockoff method with $c=0$ is 1/2 (i.e. $P(\max W_j> -\min W_j)$), and not the $P$-value as it is supposed to be. The reason that $mFDR>FDR$ is that $E|\{W_j>\hat t\}|=1+E |W_j<-\hat t|$. Thus if the number of detected true alternatives is not much larger than $1/q$, we are likely to reject one null too many. To correct it is suggested to use $c=1$, which has a proven FDR, but the knockoff+ method does not make sense unless it is known that $q|{\mathcal H}_1|\ge 1$. Otherwise, no matter how large is the effect size of these alternative the power is approximately $2^{q^{-1}-|S|}$, since we need that the rejected set will be at least greater than $1/q$, or that (essentially) all of $\{W_j: |W_j|>\hat t\}$, will be positive.
+	If $q|S|\gg 1$ then both methods have a reasonable and provable $FDR$ performance.
+	
+	We come now to the potential loss of efficiency of the knockoff method as described.
+	Suppose, for example, that the distribution of $T_j$ has much heavier far away tails for null variables.
+	The selection cutoff will be driven by the few selected null variables with heavier tails, at the risk of masking non-nulls.
+	The knockoff method thus does not save the need for very careful selection of the test statistics, and using it with difficult to analyze large dimensional methods like the lasso is questionable, where the standard error of each variable is different.
+	
+	
+	But the main problem seems to be  a direct power loss due to the randomization.
+	Here is a toy problem.
+	Consider the very simple model where we observe $Y=\beta^T X+\epsilon$, $\epsilon\sim N(0,\sigma^2)$, $X\in R^{2p}$, $(X_1,X_2),\dots,(X_{2p-1},X_{2p})$ are i.i.d.,   $(X_{2j-1},X_{2j})^T\sim N_2(0,\Sigma)$ where $\Sigma=\begin{pmatrix}1 & \rho\\\rho &1\end{pmatrix}$.
+	\citet{CandesPanninggoldmodelX2018} show that the knockoffs are given by
+	\begin{equation*}
+		\begin{split}
+			{\mathcal L}\Bigl\{\begin{pmatrix}\tilde X_{2j-1}\\\tilde X_{2j}\end{pmatrix}|X=x\Bigr\} = N_2\Bigl((I+\lambda \Sigma^{-1})\begin{pmatrix}x_{2j-1}\\x_{2j}\end{pmatrix},\hspace{1em} 2\lambda I-\lambda^2\Sigma^{-1}\Bigr),
+		\end{split}
+	\end{equation*}
+	where $\lambda<2(1-\rho)$.
+	However, tedious calculations show the effect size needed to be detected with reasonable power is larger by at least a factor of $(1-\rho^2)^{-1/2}$ (for the optimal selected $\lambda$ which is the minimal). As we mentioned, the main motivation to use FDR is that it reduces the needed effect size by a factor of $(1+\log(|S|)/\log(p/q))^{1/2}$.
+	This may be a negligible gain relative to the above loss due to randomization.
+	It seems that keeping the family-wise error-rate at $q$ using a Bonferroni method will yield more power (and hence, in effect, better detection) than the randomized knockoff method.
+	
+	
+	
+	
+	\section{On Sampling from HMMs}
+	In \cite{SesiaGenehuntinghidden} the explanatory variables are considered as HMM: there is a latent Markov process $Z$, such that the observations $X_1,\dots,X_p$ are independent given $Z$ and ${\mathcal L}(X_j|Z)={\mathcal L}(X_j|Z_j)$.
+	The knockoff construction algorithm is based on drawing a single sample from the Markov process $X\to Z\to \tilde Z\to \tilde X$, where $(\tilde Z,\tilde X)$ is a knockoff of $(Z,X)$.
+	It is not clear to us why the extra step of a random sample of $\tilde Z$ is needed, and why we cannot sample directly according to the Markov process $X\to Z\to \tilde X$ where $(Z,X)$ and $(Z,\tilde X)$ are identically distributed.
+	
+	Is knowledge of $F_X$ realistic for HMMs?
+	Now, any process can be  represented as a weak limit of \emph{non-stationary} HMMs.
+	The difficulty is, of course, with the number of needed parameters.
+	If you consider $K$ hidden states and $L$ possible output values then the number of parameters is approximately $pK(K+L-2)$.
+	With the $n$ and $p$ as in the examples, the demand that the estimated model will be considered as ``known'', enforces quite as small $K$, and hence the HMM assumption is restrictive.
+	An HMM is not Markovian, but it is exponentially mixing.
+	Practically speaking, $K$ small does not enable medial range non-monotone dependency, as one may find in GWAS due to Linkage-Disequilibriumm.
+	If $n$ forces $K$ small, so that dependencies are local, one may be better of considering a test under local dependencies.
+	In such a test, marginal and conditional nulls are the same except locally.
+	One may thus test for independence between $Y$ and $X_j$ and some of its neighbors, while ignoring distant $j$'s.
+	
+	
+	
+	
+	\section{Future Research}
+	
+	We find the knockoff framework to be quite exciting.
+	Not because it offers solutions to all possible difficulties, but on the contrary: because it sets the stage for many important research questions.
+	Some of the following questions are already acknowledged in \citet[Sec.7.2]{CandesPanninggoldmodelX2018}:
+	Are error guarantees \textbf{robust} to misspecification of $F_X$?
+	What test statistics have more \textbf{power}?
+	Knockoffs are not uniquely defined so how to best generate them?
+	Do methods defined for other null-invariants, such as permutations, generalize to knockoffs easily?
+	How to sample knockoffs efficiently?
+	Does screening with knockoffs have more power than the linear model (even if miss-specified)?
+	What other algorithms are possible assuming $F_X$ known?
+	What can we borrow from the semi-supervised learning literature to the knockoff setup?
+	Are the conditional nulls of \cite{SesiaGenehuntinghidden} preferable over marginal nulls such as in \cite{TusherSignificanceanalysismicroarrays2001}?
+	
+	\cite{DaiknockofffilterFDR2016}, \cite{JansonFamilywiseerrorrate2016}, \cite{ChenAnalysisKnockoffFilter2017}, \cite{ChenPseudoKnockoffFilter2017}, and others, have already started to explore and extend the knockoff framework of \cite{BarberControllingfalsediscovery2015}.
+	We expect many such explorations in the upcoming future.
+	
+	
+	
+	\section*{Acknowledgement}
+	The authors thank  Dr. Aldo Solari, Dr. Livio Finos, Prof. Yuekai Sun, and the students in the University of Michigan Stats 710 class for fruitful discussions leading to this manuscript, while not necessarily agreeing with its conclusions.
+	
+	
+	\bibliographystyle{biometrika}
+	\bibliography{paper-ref}
+	
+	
+	
 \end{document}
