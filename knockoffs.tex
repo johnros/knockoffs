@@ -50,17 +50,17 @@
 	% Variable selection with provable error guarantees. Namely, FDR control.
 	
 	The authors of \cite{SesiaGenehuntinghidden} set out to design a procedure for variable selection with provable finite sample statistical guarantees.
-	The \emph{knockoff} algorithm proposed by \cite{SesiaGenehuntinghidden}, provably controls the $\rm{FDR}$ of conditionally independent variables.
+	The \emph{knockoff+} algorithm proposed by \cite{SesiaGenehuntinghidden}, provably controls the $\rm{FDR}$ of conditionally independent variables.
 	Denoting with $X:=(X_j)_{j=1}^p$ and $Y$ the predictor and outcome variables, respectively.
 	The \emph{false discovery proportion}, a.k.a.\ the \emph{false selection proportion}, is defined as $\rm{FDP}:=V/R$ where $R$ is the number of variables selected, and $V$ is the number of falsely selected.
 	A false selection defined by \cite{SesiaGenehuntinghidden} to be a selected $X_j$ where $Y|X_{-j}$ is independent of $X_j$.
-	The knockoff algorithm of \cite{SesiaGenehuntinghidden} provably controls the $\rm{FDR}:=\mathbb{E}[\rm{FDP}]$, at some user selected magnitude.
+	The knockoff algorithm of \cite{SesiaGenehuntinghidden} provably controls the $\rm{FDR}:=\mathbb{E}[\rm{FDP}]$, at some user selected magnitude, $q$.
 	
 	The fundamental idea of the method is to generate another set of variables, the \emph{knockoffs}, that are exchangeable with the original $X_j$s, only that  conditionally on $X$ they are uncorrelated with $Y$.
 	The method then proceeds to compute a test statistic that captures the difference between the apparent dependence between $Y$ and $X_j$ and to that of $Y$ with the knockoff $\tilde X_j$.
 	
 	Crucially for our discussion:
-	(1) The $\rm{FDR}$ is an expectation with respect to variability in $X$ and $Y$, i.e., it is based on  a \emph{random design} guarantee.
+	(1) The $\rm{FDR}$ is an expectation with respect to variability in $X$ and $Y$, i.e., it is a \emph{random design} guarantee.
 	(2) The procedure is \emph{model-free}, i.e.\ \emph{non-parametric}, with respect to prediction, in that nothing is assumed on the form of $Y|X$.
 	(3) The framework assumes full knowledge of $F_X$, i.e., the joint distribution of predictors, marginalized over $Y$. In application it is based on the assumption that $F_X$ can be estimated well enough to be assumed known.
 	(4) The method aims at good variable selection and not prediction, estimation nor ranking.
@@ -68,14 +68,10 @@
 	We think of the method in \cite{SesiaGenehuntinghidden} as an adaptation of \cite{CandesPanninggoldmodelX2018} to genome-wide association studies (GWAS).
 	The differences between the two:
 	(1) The non-null variables in \cite{CandesPanninggoldmodelX2018} are those that belong to the minimal set that renders all others independent, i.e., the non-null is the Markov-Blanket of $X$ on $Y$.
-	In \cite{SesiaGenehuntinghidden}, the non-null variables are those with non-null partial correlations. Under some minimal conditions these two sets are the same.
-	(2) \cite{CandesPanninggoldmodelX2018} discusses a multivariate Gaussian model, while \cite{SesiaGenehuntinghidden} a hidden Markov model (HMM).
+	In \cite{SesiaGenehuntinghidden}, the non-null variables are those with non-null partial correlations. 
+	Under some minimal conditions, that exclude perfectly dependent variables, these two sets are the same.
+	(2) In \cite{CandesPanninggoldmodelX2018} $F_X$ is multivariate Gaussian, while in \cite{SesiaGenehuntinghidden}, a hidden Markov model (HMM).
 	An important contribution in each paper is an algorithm for sampling knockoffs from the assumed model.
-	
-	The method of \cite{SesiaGenehuntinghidden} is also similar in flavor to \cite{BarberControllingfalsediscovery2015}, with the following differences:
-	(1) \cite{BarberControllingfalsediscovery2015} assume a linear generative model, so that the null is simply $H_j:\beta_j=0$.
-	(2) \cite{BarberControllingfalsediscovery2015} crucially assume $n>p$, and Gaussian distributed errors.
-	(3) \cite{BarberControllingfalsediscovery2015} control the fixed-design \rm{FDR}, which is stronger, and implies, random-design control.
 	
 	
 	
@@ -90,8 +86,8 @@
 	%[We, on the other hand, do not find this such a troubling assumption for the following reasons:
 	%(1) In many applications the dimensionality of $F_X$ can be reduced to a tractable one. The HMM assumption of \cite{SesiaGenehuntinghidden} is an example.
 	%(2) The preliminary results of \cite{CandesPanninggoldmodelX2018} show that FDR-control is quite robust to errors in $F_X$. We expect this matter to be further investigated in the future.]
-	The GWAS application, however, represents an ideal situation in which much is known about $F_X$, e.g.\ from the HapMap project \citep{Hapmap2003}.
-	Other areas of potential application include Semi-Supervised Machine Learning in which $F_X$ may be inferred from extra observations of $X$.
+	GWAS represents a situation in which much is known about $F_X$, e.g.\ from the HapMap project \citep{Hapmap2003}.
+	Other areas of potential application include Semi-Supervised Machine Learning.
 	In general high-dimensional data settings, however, $F_X$ has so many parameters that estimating it may turn out be a more difficult problem than estimating the conditional distribution of $Y|X$.
 	In all cases, robustness to errors in $F_X$ is crucial for the practical usefulness of the method, and we are happy to see the promising preliminary results of \cite{CandesPanninggoldmodelX2018}.
 	On the other hand, the pruning step in the GWAS example of \cite{SesiaGenehuntinghidden} suggests that strong dependencies may adversely affect the performance of the method; both with respect to power, and with respect to the tails of the $FDP$ distribution.
@@ -123,7 +119,7 @@
 	The invariance property in \cite{SesiaGenehuntinghidden} describes so-called \emph{null-invariant transformations} \citep{Goeman2010}:
 	the joint distribution of the augmented data $(Y,X,\tilde X)$ is invariant under the transformation $\textrm{swap}(S)$ provided that $S$ is a set of true nulls.
 	Known null-invariant transformations, e.g.\ permutations and rotations \citep{Langsrud2005}, existed so far only for null hypotheses about marginal association.
-	E.g.\ \citet{TusherSignificanceanalysismicroarrays2001} use a knockoff-like framework to test marginal, not conditional, nulls. This method was recently proven to control tail probabilities of the False Discovery Proportion \citep{Hemerik2018}.
+	E.g.\ \citet{TusherSignificanceanalysismicroarrays2001} use a knockoff-like framework to test marginal, not conditional, nulls. This method was recently proven to control tail probabilities of the $FDP$ \citep{Hemerik2018}.
 	Which null hypothesis is to be preferred? Conditional of marginal?
 	Think of two correlated SNPs.
 	One causal and the other is not.
