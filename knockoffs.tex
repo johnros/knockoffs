@@ -160,36 +160,19 @@
 	
 	\cite{SesiaGenehuntinghidden} and \cite{CandesPanninggoldmodelX2018} provide compelling power simulations.
 	Below we try to design some adversarial examples, where knockoffs may not be favorable. 
-	From the practitioners' view, a ``knockoff do's and don'ts'' is certainly welcome. 
+	From the practitioners' view, a ``knockoff handbook'' will certainly be beneficial. 
 	
-	In the set up we consider the number of variables is ultra high (i.e., in the $p\gg n$ situation), most of them are true nulls. 
-	To be more precise, the asymptotics we consider are such that 
-	%the number of rejected to not rejected nulls
-	the proportion of false hypotheses \marg{please check my edit}
-	goes to 0. Moreover, we assume that the $p$ test statistics have sub-Gaussian distribution. We argue that in our models, if the the familywise-error-rate (FWER) is $q$, then  the Bonferroni correction procedure has more power than the knockoff methods. The argument stands on two legs. Firstly, an optimal FDR procedure gives only a small power gain relative to an FWER procedure. Secondly, the knockoff methods is losing considerable power due to the built-in randomization.
+	A non-favorable setup for the knockoff is the following:
+	The model is a well-specified liner model; the number of alternatives is not large; correlations between $X_j$ are considerable. 
+	In this setup, the knockoff framework may be unboundedly worse that the simplest regression with FWER control.
+	Why? 
+	Because the power gain due to FDR control is attenuated by the power cost of the tremendous generality of the knockoff assumptions.
 	
-	The main justification for preferring the FDR criterion over the FWER one is that the FWER seems to be too conservative and if the number of the true alternatives, $|S|$ is large, we can permit some  false detections. However under some standard assumptions, if we consider $p$ test statistics each of them with (marginally) $N(0,1)$ distribution under the null, rejecting $q|S|$ true nulls on the average means rejecting variables with test statistics greater than $\sqrt{2\log(p/q|S|)}$ and not $\Phi^{-1}(1-q/p)\approx\sqrt{2\log (p/q)}$ as would be implied by a standard Bonferroni correction .
-	That implies  the effect size of an alternative can be $\bigl\{1+\log(|S|)/\log (p/q)\bigr\}^{1/2}$ smaller while keeping its power level constant. However, this ratio is very close to 1 when $p\gg q|S|$ as it is the case in most $p\gg n$ models of interest. This leaves a small margin of inefficiency for a method that its main justification is a proven FDR.
-	We argue now that knockoff methods, being randomized procedures, are strictly inefficient in this situation.
-	
-	Knockoff methods reject all variables such that $W_j\ge \hat t$, where $W_j$ is the difference in the criterion applied to $X_j$ and $\tilde X_j$, and
-	\begin{equation*}
-		\hat t = \inf\Bigl\{t: \frac{c+|\{j: W_j\le -t\}|}{1\vee|\{j: W_j\ge t\}|}\leq q\Bigr\},
-	\end{equation*}
-	where $c\in\{0,1\}$.
-	Setting $c=0$ yields the standard knockoff method, which provably controls only $mFDR=\mathbb{E} \Bigl[|\hat S\cap {\mathcal H}_0|/(|\hat S|+1/q)\Bigr]\le q$.
-	Setting $c=1$ yields the \emph{knockoff+} method, which provably control the usual FDR.
-	
-	What happens when the number of true alternatives is small?
-	If $|\hat S|\not\gg q^{-1}$ then $mFDR \ll FDR$.
-	In fact, the actual FDR under the null of the knockoff method with $c=0$ is 1/2 (i.e. $P(\max W_j> -\min W_j)$), and not the $P$-value as it is supposed to be. The reason that $mFDR>FDR$ is that $E|\{W_j>\hat t\}|=1+E |W_j<-\hat t|$. Thus if the number of detected true alternatives is not much larger than $1/q$, we are likely to reject one null too many. To correct it is suggested to use $c=1$, which has a proven FDR, but the knockoff+ method does not make sense unless it is known that $q|{\mathcal H}_1|\ge 1$. Otherwise, no matter how large is the effect size of these alternative the power is approximately $2^{q^{-1}-|S|}$, since we need that the rejected set will be at least greater than $1/q$, or that (essentially) all of $\{W_j: |W_j|>\hat t\}$, will be positive.
-	If $q|S|\gg 1$ then both methods have a reasonable and provable $FDR$ performance.
-	
-	We come now to the potential loss of efficiency of the knockoff method as described.
-	Suppose, for example, that the distribution of $T_j$ has much heavier far away tails for null variables.
-	The selection cutoff will be driven by the few selected null variables with heavier tails, at the risk of masking non-nulls.
-	The knockoff method thus does not save the need for very careful selection of the test statistics, and using it with difficult to analyze large dimensional methods like the lasso is questionable, where the standard error of each variable is different.
-	
+	More formally, consider $|\mathcal{S}|\ll p$ and $\mathcal{N}(0,1)$ statistics under the null.	
+	Rejecting $q|S|$ true nulls on the average means rejecting variables with test statistics greater than $\sqrt{2\log(p/q|S|)}$ on $Z$ scale.
+	A naive Bonferroni correction (which we do not advocate) implies a $\Phi^{-1}(1-q/p)\approx\sqrt{2\log (p/q)}$ rejection cutoff.
+	The ratio between the cutoff of some FDR controlling procedure, and FWER control with Bonferroni, is thus $\bigl\{1+\log(|S|)/\log (p/q)\bigr\}^{1/2}$, so that if $|\mathcal{S}|\ll p$, and the methods have similiar power for identical hypotheses. 
+	We now need to show that the price of provable FDR control of the knockoffs, may be quite large compared to classical techniques. 
 	
 	But the main problem seems to be  a direct power loss due to the randomization.
 	Here is a toy problem.
@@ -204,6 +187,15 @@
 	However, tedious calculations show the effect size needed to be detected with reasonable power is larger by at least a factor of $(1-\rho^2)^{-1/2}$ (for the optimal selected $\lambda$ which is the minimal). As we mentioned, the main motivation to use FDR is that it reduces the needed effect size by a factor of $(1+\log(|S|)/\log(p/q))^{1/2}$.
 	This may be a negligible gain relative to the above loss due to randomization.
 	It seems that keeping the family-wise error-rate at $q$ using a Bonferroni method will yield more power (and hence, in effect, better detection) than the randomized knockoff method.
+	
+	
+		
+	We come now to the potential loss of efficiency of the knockoff method as described.
+	Suppose, for example, that the distribution of $T_j$ has much heavier far away tails for null variables.
+	The selection cutoff will be driven by the few selected null variables with heavier tails, at the risk of masking non-nulls.
+	The knockoff method thus does not save the need for very careful selection of the test statistics, and using it with difficult to analyze large dimensional methods like the lasso is questionable, where the standard error of each variable is different.
+	
+	
 	
 	
 	
