@@ -143,14 +143,13 @@
 	Since we only need that $\tilde{X}$ be a knockoff of $X$, then it is not clear to us why the extra step of a random sample of $\tilde Z$ is needed? Can we not sample directly $X\to Z\to \tilde X$?
 	
 	Is knowledge of $F_X$ realistic for HMMs?
-	Now, any process can be  represented as a weak limit of \emph{non-stationary} HMMs.
+	Any process can be approximated as a weak limit of a \emph{non-stationary} HMM.
 	The difficulty is, of course, with the number of needed parameters.
-	If you consider $K$ hidden states and $L$ possible output values then the number of parameters is approximately $pK(K+L-2)$.
-	With the $n$ and $p$ as in the examples, the demand that the estimated model will be considered as ``known'', enforces quite as small $K$, and hence the HMM assumption is restrictive.
+	For $K$ hidden states, and $L$ output values, then the number of parameters is approximately $p K(K+L-2)$.
+	With $n$ and $p$ as in the examples, the demand that the estimated model will be considered as ``known'', enforces quite as small $K$, and hence the HMM assumption is restrictive.
 	An HMM is not Markovian, but it is exponentially mixing.
-	Practically speaking, $K$ small does not enable medial range non-monotone dependency, as one may find in GWAS due to Linkage-Disequilibriumm.
-	If $n$ forces $K$ small, so that dependencies are local, one may be better of considering a test under local dependencies.
-	In such a test, marginal and conditional nulls are the same except locally.
+	Practically speaking, $K$ small does not enable medial range non-monotone dependency, as one may find in GWAS due to Linkage-Disequilibrium.
+	If $n$ forces $K$ small, dependencies are local, so that marginal and conditional nulls are the same, except locally.
 	One may thus test for independence between $Y$ and $X_j$ and some of its neighbors, while ignoring distant $j$'s.
 	
 	
