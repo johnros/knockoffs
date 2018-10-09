@@ -115,9 +115,9 @@
 	
 	
 	
-	\section{Conditional resampling}
+	\section{Conditional Resampling}
 	The invariance property in \cite{SesiaGenehuntinghidden} describes so-called \emph{null-invariant transformations} \citep{Goeman2010}:
-	the joint distribution of the augmented data $(Y,X,\tilde X)$ is invariant under the transformation $\textrm{swap}(S)$ provided that $S$ is a set of true nulls.
+	the joint distribution of the augmented data $(Y,X,\tilde X)$ is invariant under the transformation $\textrm{swap}(J)$ provided that $J$ is a set of true nulls.
 	Known null-invariant transformations, e.g.\ permutations and rotations \citep{Langsrud2005}, existed so far only for null hypotheses about marginal association.
 	E.g.\ \citet{TusherSignificanceanalysismicroarrays2001} use a knockoff-like framework to test marginal, not conditional, nulls. This method was recently proven to control tail probabilities of the $FDP$ \citep{Hemerik2018}.
 	Which null hypothesis is to be preferred? Conditional of marginal?
@@ -127,22 +127,23 @@
 	It thus seems to us that for the purpose of screening, marginal nulls, not conditional, are desirable.
 	
 	Knockoffs represent, as far as we know, the first null-invariant transformations with respect to conditional nulls rather than marginal nulls.
-	Seeing knockoffs as null-invariants opens the way for their more classical use, e.g.\ using multiple random knockoffs for controlling familywise error in the manner of \cite{Westfall1993}. Since familywise error control is the norm in the field of GWAS, the latter would be a worthwhile extension. An alternative resampling approach for testing for dependence between $Y$ and $X_j$ would be to sample from the conditional distribution of $X_j$ given $X_{-j}$. This approach was found to be powerful in \cite{CandesPanninggoldmodelX2018}, but dismissed there for computational reasons; it was not considered again in \cite{SesiaGenehuntinghidden}. This may be a missed opportunity. 
-	Conditonal resampling can be done easily in the context of hidden Markov models, where, for example, if $Y\in \{0,1\}$, one can easily test for conditional independence in the $2\times L$ table of $Y$ and $X_j$. Resampling-based methods such as \cite{Westfall1993} are computationally quite efficient, requiring only a small multiple of $\alpha^{-1}$ resampled data sets for powerful familywise error control at level $\alpha$. Alternatively, applying early stopping \citep[e.g.][]{jiang2012statistical}, and tail resampling \cite[e.g.][]{yu2011efficient} can be used for additional computational efficiency.
+	Seeing knockoffs as null-invariants opens the way for their more classical use, e.g.\ using multiple random knockoffs for controlling familywise error in the manner of \cite{Westfall1993}. Since familywise error control is the norm in the field of GWAS, the latter would be a worthwhile extension. 
+	An alternative approach is resampling from the conditional distribution of $X_j$ given $X_{-j}$. 
+	This approach was found to be powerful in \cite[Fig.3]{CandesPanninggoldmodelX2018}, but dismissed there for computational reasons; it was not considered again in \cite{SesiaGenehuntinghidden}. 
+	This may be a missed opportunity. 
+	Conditional resampling can be done easily in the context of hidden Markov models, where, for example, if $Y\in \{0,1\}$, one can easily test for conditional independence in the $2\times L$ table of $Y$ and $X_j$. 
+	More generally, resampling-based methods such as \cite{Westfall1993} are computationally quite efficient, requiring only a small multiple of $\alpha^{-1}$ resampled data sets for powerful FWER control at level $\alpha$. 
+	Alternatively, applying early stopping \citep[e.g.][]{jiang2012statistical}, and tail resampling \cite[e.g.][]{yu2011efficient} can be used for additional computational efficiency.
+		
 	
 	
 	
 	
+	\section{Power Considerations and Adversarial Examples}
 	
-	
-	
-	
-	
-	
-	
-	\section{Power Considerations and Counter Examples}
-	
-	There are many examples were the knockoffs work excellently well and a few of them are given by the authors. We give below counter examples. We find it  useful if the authors advise us when to use the knockoff method and when other methods will be more practical.
+	\cite{SesiaGenehuntinghidden} and \cite{CandesPanninggoldmodelX2018} provide compelling power simulations.
+	Below we try to design some adversarial examples, where knockoffs may not be favorable. 
+	From the practitioners' view, a ``knockoff do's and don'ts'' is certainly welcome. 
 	
 	In the set up we consider the number of variables is ultra high (i.e., in the $p\gg n$ situation), most of them are true nulls. To be more precise, the asymptotics we consider are such that 
 	%the number of rejected to not rejected nulls
