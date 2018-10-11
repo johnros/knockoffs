@@ -158,39 +158,47 @@
 	
 	\section{Power Considerations and Adversarial Examples}
 	
-	\cite{SesiaGenehuntinghidden} and \cite{CandesPanninggoldmodelX2018} provide compelling power simulations.
-	Below we try to design some adversarial examples, where knockoffs may not be favorable. 
-	From the practitioners' view, a ``knockoff handbook'' will certainly be beneficial. 
 	
-	A non-favorable setup for the knockoff is the following:
-	The model is a well-specified liner model; the number of alternatives is not large; correlations between $X_j$ are considerable. 
-	In this setup, the knockoff framework may be unboundedly worse that the simplest regression with FWER control.
-	Why? 
+	\cite{SesiaGenehuntinghidden} and \cite{CandesPanninggoldmodelX2018} provide compelling power simulations.
+	Below we try to design some adversarial examples, where knockoffs may not be favorable.
+	From the practitioners' view, a ``knockoff handbook'' will certainly be beneficial.
+	
+	A non-favorable setup we  for the knockoff is the following. 
+	We consider Gaussian $X$s which are highly correlated. High correlation between the $X$ enforces a high correlation between  $X$ and $\tilde X$. 
+	In this setup, the knockoff framework may be  worse that the simplest regression with FWER control.
+	Why?
 	Because the power gain due to FDR control is attenuated by the power cost of the tremendous generality of the knockoff assumptions.
 	
 	More formally, consider $|\mathcal{S}|\ll p$ and $\mathcal{N}(0,1)$ statistics under the null.	
 	Rejecting $q|S|$ true nulls on the average means rejecting variables with test statistics greater than $\sqrt{2\log(p/q|S|)}$ on $Z$ scale.
 	A naive Bonferroni correction (which we do not advocate) implies a $\Phi^{-1}(1-q/p)\approx\sqrt{2\log (p/q)}$ rejection cutoff.
-	The ratio between the cutoff of some FDR controlling procedure, and FWER control with Bonferroni, is thus $\bigl\{1+\log(|S|)/\log (p/q)\bigr\}^{1/2}$, so that if $|\mathcal{S}|\ll p$, and the methods have similiar power for identical hypotheses. 
-	We now need to show that the price of provable FDR control of the knockoffs, may be quite large compared to classical techniques. 
+	The ratio between the cutoff of some FDR controlling procedure, and FWER control with Bonferroni, is thus $\bigl\{1+\log(|S|)/\log (p/q)\bigr\}^{1/2}$. 
+	If $|\mathcal{S}|\ll p$, then FDR has more power than FWER, but not by much. 
+	We now need to show that the price of provable FDR control of the knockoffs, may be quite large compared to classical techniques.
 	
 	We observe $Y=\beta^T X+\epsilon$, $\epsilon\sim \mathcal{N}(0,\sigma^2)$.
-	The predictors are correlated in pairs: $X\in R^{2p}$, $(X_1,X_2),\dots,(X_{2p-1},X_{2p})$ are i.i.d.,   $(X_{2j-1},X_{2j})^T\sim \mathcal{N}_2(0,\Sigma)$ where $\Sigma=\begin{pmatrix}1 & \rho\\\rho &1\end{pmatrix}$.
-	\citet{CandesPanninggoldmodelX2018} show that the knockoffs are given by
-	\begin{equation*}
-	(\tilde X_{2j-1},\tilde X_{2j}|X=x) \sim 
-	\mathcal{N}_2\Bigl((I+\lambda \Sigma^{-1})(x_{2j-1},x_{2j})^T,\hspace{1em} 2\lambda I-\lambda^2\Sigma^{-1}\Bigr),
-	\end{equation*}
-	where $\lambda<2(1-\rho)$.
-	Our calculations show the effect size needed to be detected with knockoffs with reasonable power is larger by at least a factor of $(1-\rho^2)^{-1/2}$ compared to classical linear regression with Bonferonni FWER control (for the optimal selected $\lambda$ which is the minimal). 
-	If the correlations are strong, i.e. $\rho \approx 1$, the power loss is considerable.
-	Combining with the fact that in our setup the FDR and FWER rejection cutoffs are similar, we conclude this is clearly an unfavorable setup for knockoffs. 
+	The predictors are correlated in pairs: 
+	$X\in R^{2p}$, 
+	$X:=(W_j^T)_{j=1}^p; W_j\sim \mathcal{N}_2(0,\Sigma)$, where $\Sigma=\begin{pmatrix}1 & \rho\\\rho &1\end{pmatrix}$.
+	\citet{CandesPanninggoldmodelX2018} show that the knockoffs can be given by $(W_j,\tilde W_j)^T$ multivariate normal with $Cov[W_j,\tilde W_j]=\Sigma-\lambda I$ for  $0<\lambda<2(1-\rho)$. 
+	We fit the model $Y=\sum W_j^T \gamma_j+\sum \tilde W_j^T \tilde\gamma_j+\epsilon$. 
+	Now, by the structure $Var[(X,\tilde X)]$, we see that an efficient estimation of $\gamma_1-\tilde \gamma_1,\dots,\gamma_p-\tilde \gamma_p$ and $\gamma_1+\tilde\gamma_1,\dots,\gamma_p+\tilde\gamma_p$ can be achieved by estimating each of them separately, in particular $\hat\gamma_j -\widehat{\tilde\gamma_j}\sim \mathcal{N}_2(\gamma_j, 2n^{-1}\sigma^2\lambda^{-1} I)$. 
+	Compare this to the estimate of the given linear model $Y=\sum W_j^T \gamma_j+\epsilon$, where $\hat\gamma_j\sim\mathcal{N}_2(\gamma_j,n^{-1}\Sigma^{-1})$. 
+	If $\rho\approx1$, and $j$ is a null variable then the tails of $|\hat \beta_j|-|\widehat{\tilde\beta_j}|$ behave like the tails of $\hat\beta_j-\widehat{\tilde\beta_j}$. We see thus, that using the knockoff methods increases the effect size needed to achieve a given power by a factor of $\bigl(2(1-\rho^2)/\lambda\bigr)^{1/2}>\bigl(1+\rho\bigr)^{1/2}$.
+	
+	Combining with the fact that in our setup the FDR and FWER rejection cutoffs are similar, we conclude this is clearly an unfavorable setup for knockoffs. Note that the regular estimator was based only on the \emph{known} distribution of  $X$ and not on the validity model of $Y$ given $X$.
+	
+	Although this white noise toy model was described in terms of the Gaussian linear model, the idea is probably valid in much more generality. 
+	The fundamental observation being that a high correlation within $X$ implies high correlation between $X$ and $\tilde X$, thus between $T_j$ and $\tilde T_j$, even though they should be consistent for different values.
+	This may explain why in Sec.7.1, \citet[Sec.7.1]{SesiaGenehuntinghidden} the authors apply a pruning pre-processing stage, which reduces correlations.
 	
 	
-	Another way to design an adversarial example, is simply letting the tails of the null test statistics to be heavier than the alternative. 
+	Another way to design an adversarial example, is simply letting the tails of the null test statistics to be heavier than the alternative.
 	The selection cutoff will be driven by the few selected null variables with heavier tails, at the risk of masking non-nulls.
-	This is perhaps a less realistic setup than our previous, but will clearly hurt the power of the knockoff procedure. 
+	This is perhaps a less realistic setup than our previous, but will clearly hurt the power of the knockoff procedure.
 	
+	A standard FDR procedure should have significant level $q$ if all variables are null. The suggested knockoff methods seem to have a problematic behavior if $q|S|<1$. Two methods were suggested in \citet{BarberControllingfalsediscovery2015} and \citet{CandesPanninggoldmodelX2018}. The regular knockoff method has in this situation a significant level of approximately 1/2, while the knockoff+ method has a negligible power of approximately $2^{|S|-1/q}$ no matter how strong is the signal: we should have at least $q^{-1}-|S|$ nulls in the right tail before the first null appears on the left.
+
 	
 	
 	\section{Future Research}
