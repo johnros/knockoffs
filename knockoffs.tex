@@ -27,14 +27,14 @@
 	%% Here are the title, author names and addresses
 	\title{Discussion of Sesia et al. and the Knockoff Framework}
 	
-	\author{\and Jonathan D. Rosenblatt}
+	\author{Jonathan D. Rosenblatt}
 	\affil{Dept. of Industrial Engineering and Management, \\
 		Ben Gurion University of the Negev, Israel.\email{johnros@bgu.ac.il}}
 	
-	\author{ Ya'\hspace{-0.2em}acov Ritov}
+	\author{\and  Ya'\hspace{-0.2em}acov Ritov}
 	\affil{Department of Statistics, University of Michigan, USA\email{yritov@umich.edu}}
 	
-	\author{Jelle J. Goeman}
+	\author{\and  Jelle J. Goeman}
 	\affil{Department of Biomedical Data Sciences,
 		Leiden University Medical Center, The Netherlands.\email{J.J.Goeman@lumc.nl}}
 	
@@ -90,7 +90,7 @@
 	Other areas of potential application include Semi-Supervised Machine Learning.
 	In general high-dimensional data settings, however, $F_X$ has so many parameters that estimating it may turn out be a more difficult problem than estimating the conditional distribution of $Y|X$.
 	In all cases, robustness to errors in $F_X$ is crucial for the practical usefulness of the method, and we are happy to see the promising preliminary results of \cite{CandesPanninggoldmodelX2018}.
-	On the other hand, the pruning step in the GWAS example of \cite{SesiaGenehuntinghidden} suggests that strong dependencies may adversely affect the performance of the method; both with respect to power, and with respect to the tails of the $FDP$ distribution.
+	On the other hand, the pruning step in the GWAS example of \cite{SesiaGenehuntinghidden} suggests that strong dependencies may adversely affect the performance of the method; both with respect to power, and with respect to the tails of the $\rm{FDP}$ distribution.
 	We expect this matter to be further investigated in the future.
 	
 	
@@ -119,7 +119,7 @@
 	The invariance property in \cite{SesiaGenehuntinghidden} describes so-called \emph{null-invariant transformations} \citep{Goeman2010}:
 	the joint distribution of the augmented data $(Y,X,\tilde X)$ is invariant under the transformation $\textrm{swap}(J)$ provided that $J$ is a set of true nulls.
 	Known null-invariant transformations, e.g.\ permutations and rotations \citep{Langsrud2005}, existed so far only for null hypotheses about marginal association.
-	E.g.\ \citet{TusherSignificanceanalysismicroarrays2001} use a knockoff-like framework to test marginal, not conditional, nulls. This method was recently proven to control tail probabilities of the $FDP$ \citep{Hemerik2018}.
+	E.g.\ \citet{TusherSignificanceanalysismicroarrays2001} use a knockoff-like framework to test marginal, not conditional, nulls. This method was recently proven to control tail probabilities of the $\rm{FDP}$ \citep{Hemerik2018}.
 	Which null hypothesis is to be preferred? Conditional of marginal?
 	Think of two correlated SNPs.
 	One causal and the other is not.
@@ -163,7 +163,7 @@
 	Below we try to design some adversarial examples, where knockoffs may not be favorable.
 	From the practitioners' view, a ``knockoff handbook'' will certainly be beneficial.
 	
-	A non-favorable setup we  for the knockoff is the following. 
+	A non-favorable setup for knockoff is the following. 
 	We consider Gaussian $X$s which are highly correlated. High correlation between the $X$ enforces a high correlation between  $X$ and $\tilde X$. 
 	In this setup, the knockoff framework may be  worse that the simplest regression with FWER control.
 	Why?
