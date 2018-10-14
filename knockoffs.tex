@@ -170,9 +170,9 @@
 	Because the power gain due to FDR control is attenuated by the power cost of the tremendous generality of the knockoff assumptions.
 	
 	More formally, consider $|\mathcal{S}|\ll p$ and $\mathcal{N}(0,1)$ statistics under the null.	
-	Rejecting $q|S|$ true nulls on the average means rejecting variables with test statistics greater than $\sqrt{2\log(p/q|S|)}$ on $Z$ scale.
+	Rejecting $q|\mathcal{S}|$ true nulls on the average means rejecting variables with test statistics greater than $\sqrt{2\log(p/q|\mathcal{S}|)}$ on $Z$ scale.
 	A naive Bonferroni correction (which we do not advocate) implies a $\Phi^{-1}(1-q/p)\approx\sqrt{2\log (p/q)}$ rejection cutoff.
-	The ratio between the cutoff of some FDR controlling procedure, and FWER control with Bonferroni, is thus $\bigl\{1+\log(|S|)/\log (p/q)\bigr\}^{1/2}$. 
+	The ratio between the cutoff of some FDR controlling procedure, and FWER control with Bonferroni, is thus $\bigl\{1+\log(|\mathcal{S}|)/\log (p/q)\bigr\}^{1/2}$. 
 	If $|\mathcal{S}|\ll p$, then FDR has more power than FWER, but not by much. 
 	We now need to show that the price of provable FDR control of the knockoffs, may be quite large compared to classical techniques.
 	
@@ -197,7 +197,7 @@
 	The selection cutoff will be driven by the few selected null variables with heavier tails, at the risk of masking non-nulls.
 	This is perhaps a less realistic setup than our previous, but will clearly hurt the power of the knockoff procedure.
 	
-	A standard FDR procedure should have significant level $q$ if all variables are null. The suggested knockoff methods seem to have a problematic behavior if $q|S|<1$. Two methods were suggested in \citet{BarberControllingfalsediscovery2015} and \citet{CandesPanninggoldmodelX2018}. The regular knockoff method has in this situation a significant level of approximately 1/2, while the knockoff+ method has a negligible power of approximately $2^{|S|-1/q}$ no matter how strong is the signal: we should have at least $q^{-1}-|S|$ nulls in the right tail before the first null appears on the left.
+	A standard FDR procedure should have significant level $q$ if all variables are null. The suggested knockoff methods seem to have a problematic behavior if $q|\mathcal{S}|<1$. Two methods were suggested in \citet{BarberControllingfalsediscovery2015} and \citet{CandesPanninggoldmodelX2018}. The regular knockoff method has in this situation a significant level of approximately 1/2, while the knockoff+ method has a negligible power of approximately $2^{|\mathcal{S}|-1/q}$ no matter how strong is the signal: we should have at least $q^{-1}-|\mathcal{S}|$ nulls in the right tail before the first null appears on the left.
 
 	
 	
